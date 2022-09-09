@@ -8,3 +8,7 @@ binary: aplusb_object.o
 	gcc aplusb_object.o -o aplusb_executable.out
 sum: sum_lib.c sum_lib.h
 	gcc sum_lib.c -o sum.out
+bad_gdb: bad.c
+	gcc -g bad.c -o bad.out
+bad_asan:
+	gcc -fsanitize=address bad.c -o bad.out

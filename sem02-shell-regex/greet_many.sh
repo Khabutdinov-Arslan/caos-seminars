@@ -6,5 +6,9 @@ do
     echo "Hello, $person!"
 done
 
-lst=(1 2 3)
-echo ${lst[@]}
+paths="Vasya:Petya:Vanya"
+IFS=:
+for person in $paths:
+do
+    echo $person
+done

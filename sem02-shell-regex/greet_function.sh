@@ -6,10 +6,12 @@ function greet_person() {
     else
         echo "Hello, $1!"
     fi
+    echo "Person greeted."
 }
 
 echo "Prepare to greet $# people."
 for person in $@
 do
+    echo $(greet_person $person)
     greet_person $person
 done

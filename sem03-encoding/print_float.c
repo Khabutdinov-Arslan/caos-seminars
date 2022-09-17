@@ -22,16 +22,22 @@ void printBits(size_t size, void* ptr)
 
 int main() {
     float op = 1.0;
+    printf(" 1.0: ");
     printBits(sizeof(op), &op);
     float on = -1.0;
+    printf("-1.0: ");
     printBits(sizeof(on), &on);
     float ep = 8.0;
+    printf(" 8.0: ");
     printBits(sizeof(on), &ep);
     float hp = 0.5;
+    printf(" 0.5: ");
     printBits(sizeof(hp), &hp);
     float hl = 1.5;
+    printf(" 1.5: ");
     printBits(sizeof(hp), &hl);
     float hm = 1.75;
+    printf("1.75: ");
     printBits(sizeof(hm), &hm);
     return 0;
 }

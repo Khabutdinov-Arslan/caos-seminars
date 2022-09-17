@@ -20,17 +20,19 @@ void printBits(size_t size, void* ptr)
 
 int main() {
     uint8_t up = 27;
+    printf("uint8_t  27: ");
     printBits(sizeof(up), &up);
     int8_t sp = 27;
+    printf("int8_t   27: ");
     printBits(sizeof(sp), &sp);
     int8_t sn = -27;
+    printf("int8_t  -27: ");
     printBits(sizeof(sn), &sn);
     uint16_t lp = 27;
+    printf("uint16_t 27: ");
     printBits(sizeof(lp), &lp);
     uint16_t no = htons(27);
+    printf("uint16_t 27: ");
     printBits(sizeof(no), &no);
-    float fl = 128.0;
-    uint32_t flu = *((uint32_t*)&fl);
-    printBits(sizeof(flu), &flu);
     return 0;
 }

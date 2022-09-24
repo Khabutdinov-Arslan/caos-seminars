@@ -33,11 +33,11 @@ int main() {
     float hp = 0.5;
     printf(" 0.5: ");
     printBits(sizeof(hp), &hp);
-    float hl = 1.5;
-    printf(" 1.5: ");
+    float hl = 2.5;
+    printf(" 2.5: ");
     printBits(sizeof(hp), &hl);
-    float hm = 1.75;
-    printf("1.75: ");
+    float hm = 149.0;
+    printf("149.0: ");
     printBits(sizeof(hm), &hm);
     return 0;
 }

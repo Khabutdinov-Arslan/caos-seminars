@@ -9,5 +9,5 @@ extern void calculate();
 int main(){
     scanf("%llu", &A);
     calculate();
-    printf("%lu\n", R);
+    printf("%llu\n", R);
 }

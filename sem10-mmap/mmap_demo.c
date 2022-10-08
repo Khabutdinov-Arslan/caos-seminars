@@ -31,6 +31,7 @@ int main(int argc, char** argv) {
     printf("Minor page faults: %ld\n", resource_usage.ru_minflt);
     printf("Major page faults: %ld\n", resource_usage.ru_majflt);
     
+    pause();
 
     munmap(content_ptr, file_stats.st_size);
     close(input_file);

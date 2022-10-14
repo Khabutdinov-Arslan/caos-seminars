@@ -5,7 +5,6 @@
 // (N=rdi, *A=rsi, *B=rdx, *R=rcx)
 very_important_function:
     
-    vxorps ymm2, ymm2, ymm2
     mov r8, rdi
 
     .Loop:

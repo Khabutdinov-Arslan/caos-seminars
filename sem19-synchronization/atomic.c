@@ -14,7 +14,7 @@ typedef struct {
 
 static void* thread_func(void* arg) {
     thread_data* data_ptr = (thread_data*)arg;
-    for (int i = 0; i < 100000000; i++) {
+    for (int i = 0; i < 10000000; i++) {
         atomic_fetch_add(data_ptr->counter, 1);
     }
     return NULL;

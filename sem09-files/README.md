@@ -56,4 +56,19 @@ ssize_t write(int fd, const void *buf, size_t count);
 
 ## Seek
 
-Курсор двигать
+Иногда полезно сдвигать курсор по файлу.
+
+```
+off_t lseek(int fd, off_t offset, int whence);
+// offset from whence
+// whence = SEEK_SET|SEEK_CUR|SEEK_END (begin of file/current offset/end of file)
+```
+
+Возвращает системный вызов текущее смещение. Для 64-битных отступов:
+
+```
+#define _FILE_OFFSET_BITS 64
+```
+
+## Stat
+

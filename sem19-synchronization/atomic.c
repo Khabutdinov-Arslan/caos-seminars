@@ -1,5 +1,3 @@
-// solution by Alexey Zertsalov
-
 #include <stdio.h>
 #include <pthread.h>
 #include <stdatomic.h>

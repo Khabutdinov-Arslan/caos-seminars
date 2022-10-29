@@ -10,5 +10,9 @@ sigqueue_demo:
 	gcc sigqueue_demo.c -o sigqueue_demo.out
 alarm_demo:
 	gcc alarm_demo.c -o alarm_demo.out
+sigwaitinfo_demo:
+	gcc sigwaitinfo_demo.c -o sigwaitinfo_demo.out
+timerfd_demo:
+	gcc timerfd_demo.c -o timerfd_demo.out
 clean:
 	rm *.out

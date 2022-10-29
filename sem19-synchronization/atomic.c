@@ -9,7 +9,7 @@
 
 typedef struct {
     pthread_t thread;
-    int* counter;
+    _Atomic(int*) counter;
 } thread_data;
 
 static void* thread_func(void* arg) {

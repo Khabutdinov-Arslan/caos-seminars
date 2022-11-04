@@ -4,28 +4,21 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int read_buff(int fd, char* data, int size) {
-    char* cdata = data;
-    while (1) {
-        size_t read_bytes = read(fd, cdata, size);
-        if (read_bytes == 0) { // если read вернул 0, значит файловый дескриптор закрыт с другого конца
-            // или конец файла
-            return cdata - data;
+int read_buff(int fd, char* buff, size_t buff_size)
+{
+    size_t read_buff_size = 0;
+    while (read_buff_size < buff_size) {
+        size_t read_during_iteration =
+            read(fd, buff + read_buff_size, buff_size - read_buff_size);
+        read_buff_size += read_during_iteration;
+        if (read_during_iteration == 0) {
+            return read_buff_size;
         }
-        if (read_bytes < 0) { // если возвращено значение < 0, то это ошибка
-            if (errno == EAGAIN || errno == EINTR) { // она может быть retryable
-                continue;
-            } else { // а может быть критичной, и нет смысла пытаться повторить попытку чтения
-                return -1;
-            }
-        }
-        // если возвращенное значение > 0, значит успешно прочитано столько байт
-        cdata += read_bytes;
-        size -= read_bytes;
-        if (size == 0) {
-            return cdata - data;
+        if ((read_during_iteration < 0) && (errno != EINTR) && (errno != EAGAIN)) {
+            return -1;
         }
     }
+    return read_buff_size;
 }
 
 int main() {

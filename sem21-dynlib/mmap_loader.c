@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
     int input_file = open("libfoo.so", O_RDONLY);
     struct stat file_stats;
     fstat(input_file, &file_stats);
-    char* content_ptr = mmap(NULL, file_stats.st_size, PROT_READ | PROT_EXEC | PROT_WRITE, MAP_PRIVATE, input_file, 0);
+    char* content_ptr = mmap(NULL, file_stats.st_size, PROT_EXEC, MAP_PRIVATE, input_file, 0);
     func_t func = (func_t)(content_ptr + 0x10f9);
     double argument;
     while (scanf("%lf", &argument) != EOF) {

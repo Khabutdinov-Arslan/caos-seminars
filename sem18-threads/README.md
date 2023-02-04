@@ -72,3 +72,12 @@ pthread_attr_destroy(&thread_attr);
 ## Дополнительно
 
 Можно заметить, например с помощью Godbolt, что если создать в функции мало локальных переменных, стек-пойнтер не двигается. Это потому, что под стековым кадром в функциях, которые не вызывают другие функции, под Linux есть 128 байт красной зоны, которыми можно безопасно пользоваться. Это позволяет экономить целых две ассемблерных инструкции!
+
+Ещё под каждым стеком потока есть одна страница Guard Page. При попытке записи в неё генерируется SegFault. Это позволяет отлавливать небольшие выходы за границу стека.
+
+Пример реализации потоков в xv6:
+* create/join: https://github.com/joeylemon/xv6-threads/blob/main/ulib.c#L109
+* clone: https://github.com/joeylemon/xv6-threads/blob/main/proc.c#L225
+https://raw.githubusercontent.com/victor-yacovlev/fpmi-caos/master/lectures/spring-2020/Lection17-Threading.pdf
+
+Разделенные пробелом, знаковость

@@ -13,7 +13,14 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-const int BUFF_SIZE = 4096;
+#define BUFF_SIZE 4096
+
+typedef struct {
+    int fd;
+    char buffer[BUFF_SIZE];
+    int buffer_begin;
+    int buffer_end;
+} fd_data;
 
 int server_socket_init(uint16_t port)
 {
@@ -41,30 +48,21 @@ int server_socket_init(uint16_t port)
     return server_fd;
 }
 
-void read_message(int client_fd, char* buff){
-    read(client_fd, buff, BUFF_SIZE);
-}
-
-void write_message(int client_fd, char* buff){
-    write(client_fd, buff, strlen(buff));
-}
-
 void disable_io_block(int fd)
 {
     int current_descriptor_flags = fcntl(fd, F_GETFL);
     fcntl(fd, F_SETFL, current_descriptor_flags | O_NONBLOCK);
 }
 
-typedef struct {
-    int fd;
-} fd_data;
+void read_buff(fd_data* data) {
+    data->buffer_end = read(data->fd, data->buffer, BUFF_SIZE);
+}
 
-void process_data(fd_data* data)
-{
-    const int MAX_BUFF = 4096;
-    char buff[MAX_BUFF];
-    size_t read_byte_count = read(data->fd, buff, sizeof(buff));
-    write(data->fd, buff, read_byte_count);
+void write_buff(fd_data* data) {
+    data->buffer_begin += write(data->fd, data->buffer + data->buffer_begin, data->buffer_end - data->buffer_begin);
+    if (data->buffer_begin == data->buffer_end) {
+        data->buffer_begin = data->buffer_end = 0;
+    }
 }
 
 void process_epoll_event(struct epoll_event* event, int server_fd, int epoll_fd)
@@ -76,8 +74,10 @@ void process_epoll_event(struct epoll_event* event, int server_fd, int epoll_fd)
         struct epoll_event client_event;
         fd_data* add_data = calloc(1, sizeof(*add_data));
         add_data->fd = client_fd;
+        add_data->buffer_begin = 0;
+        add_data->buffer_end = 0;
         client_event.data.ptr = add_data;
-        client_event.events = EPOLLIN | EPOLLHUP;
+        client_event.events = EPOLLIN | EPOLLOUT | EPOLLHUP;
 
         if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, client_fd, &client_event) < 0) {
             perror("Add client to epoll failed: ");
@@ -86,10 +86,13 @@ void process_epoll_event(struct epoll_event* event, int server_fd, int epoll_fd)
     } else {
         const uint32_t mask = event->events;
         fd_data* data = event->data.ptr;
-        if (event->events & EPOLLIN) {
-            process_data(data);
+        if ((mask & EPOLLIN) && (data->buffer_end == 0)) {
+            read_buff(data);
         }
-        if (event->events & EPOLLHUP) {
+        if ((mask & EPOLLOUT) && (data->buffer_end != 0)) {
+            write_buff(data);
+        }
+        if (mask & EPOLLHUP) {
             free(data);
             epoll_ctl(epoll_fd, EPOLL_CTL_DEL, event->data.fd, NULL);
         }

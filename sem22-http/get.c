@@ -50,5 +50,6 @@ int main(int argc, char* argv[])
     }
 
     fclose(sock_f);
+    close(sock_fd);
     return 0;
 }

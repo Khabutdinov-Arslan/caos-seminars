@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 project(fuse_demo C)
 
-set(CMAKE_C_STANDARD 11)
-
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(FUSE REQUIRED fuse3)
 

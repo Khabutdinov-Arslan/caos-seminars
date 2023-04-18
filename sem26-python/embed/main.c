@@ -1,12 +1,13 @@
 #include <stdio.h>
-// В этом заголовочном файле собран почти весь API Python
 #include <Python.h>
 
 int main(int argc, char *argv[])
 {
-    Py_Initialize();
     int a;
     scanf("%d", &a);
-    PyRun_SimpleString("print(a)");
+    char buff[50];
+    sprintf(buff, "a=%d\nprint(a ** 2)", a);
+    Py_Initialize();
+    PyRun_SimpleString(buff);
     Py_Finalize();
 }

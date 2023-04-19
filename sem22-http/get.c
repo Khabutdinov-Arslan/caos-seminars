@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     snprintf(
         buff,
         sizeof(buff),
-        "GET %s HTTP/1.1\nHost: %s\nConnection: close\n\n",
+        "GET %s HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n",
         path,
         hostname);
     if (send(sock_fd, buff, strlen(buff), 0) == -1) {

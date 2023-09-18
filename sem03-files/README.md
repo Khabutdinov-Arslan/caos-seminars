@@ -207,7 +207,46 @@ struct dirent {
 
 ## Работа со временем
 
-TODO
+Получить текущее время можно при помощи функции.
+
+```
+int clock_gettime(clockid_t clockid, struct timespec *tp);
+```
+
+Основных типов часов два: `CLOCK_REALTIME` и `CLOCK_MONOTONIC`. Первый тип считает время от 1 января 1970 года, второй от какой-то неизвестной фиксированной точки в прошлом. Почему первые часы могут быть немонотонны? Время можно выставлять вручную, также его можно синхронизировать по протоколу NTP. В этом и некоторых других случаях монотонность часов первого типа теряется. Поэтому временные промежутки нужно измерять с помощью часов второго типа.
+
+```
+struct timespec {
+   time_t tv_sec;   /* Seconds */
+   long   tv_nsec;  /* Nanoseconds */
+};
+```  
+
+В более привычный формат можно преобразовать с помощью функции
+
+```
+struct tm *localtime(const time_t *timep);
+
+struct tm {
+        int     tm_sec;         /* Seconds */
+        int     tm_min;         /* Minutes */
+        int     tm_hour;        /* Hours */
+        int     tm_mday;        /* Day of month */
+        int     tm_mon;         /* Month */
+        int     tm_year;        /* Year */
+        int     tm_wday;        /* Day of week */
+        int     tm_yday;        /* Day of year */
+        int     tm_isdst;       /* Daylight saving time */
+};
+``````
+
+Для получения строкового представления есть функция
+
+```
+size_t strftime(char *buff, size_t max, const char *restrict format, const struct tm *restrict tm);
+```
+
+Пример использования можно посмотреть в `time.c`.
 
 ## FUSE
 

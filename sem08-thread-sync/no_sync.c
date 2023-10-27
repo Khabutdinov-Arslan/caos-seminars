@@ -13,8 +13,8 @@ typedef struct {
 
 static void* thread_func(void* arg) {
     thread_data* data_ptr = (thread_data*)arg;
-    for (int i = 0; i < 100000000; i++) {
-        (*(data_ptr->counter))++;
+    for (int i = 0; i < 30000; i++) {
+        ++(*(data_ptr->counter));
     }
     return NULL;
 }

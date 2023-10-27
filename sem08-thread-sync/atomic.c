@@ -9,7 +9,7 @@
 
 typedef struct {
     pthread_t thread;
-    int* counter;
+    _Atomic volatile int* counter;
 } thread_data;
 
 static void* thread_func(void* arg) {
@@ -23,7 +23,7 @@ static void* thread_func(void* arg) {
 int main() {
     const int THREADS_COUNT = 10;
     thread_data threads[THREADS_COUNT];
-    int shared_counter = 0;
+    _Atomic volatile int shared_counter = 0;
     for (int i = 0; i < THREADS_COUNT; i++) {
         threads[i].counter = &shared_counter;
         pthread_create(&threads[i].thread, NULL, thread_func,  (void*)&threads[i]);

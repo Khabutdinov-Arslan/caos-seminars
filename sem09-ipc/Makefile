@@ -22,6 +22,8 @@ sigwaitinfo_demo.out: sigwaitinfo_demo.c
 	gcc sigwaitinfo_demo.c -o sigwaitinfo_demo.out
 timerfd_demo.out: timerfd_demo.c
 	gcc timerfd_demo.c -o timerfd_demo.out
+eventfd.out: eventfd.c
+	gcc eventfd.c -o eventfd.out
 clean:
 	rm *.out
 

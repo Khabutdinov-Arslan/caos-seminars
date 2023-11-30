@@ -16,6 +16,7 @@
 10. [Сокеты](sem10-sockets)
 11. [Продвинутые сокеты](sem11-sockets-advanced)
 12. [Линковка](sem12-dynlib)
+13. [Контейнеры](sem13-containers)
 
 ## Благодарности
 

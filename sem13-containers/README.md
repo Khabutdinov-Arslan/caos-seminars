@@ -54,11 +54,27 @@ $ ip addr
 ...
 ``` 
 
-Можно проверить, что контейнеры пингуются друг из друга. 
+Можно проверить, что контейнеры пингуются друг из друга. Если выключить интерфейс на хосте, внутри контейнера пропадет доступ в есть.
 
-Можно создавать отдельные свитчи для групп контейнеров: ``docker network create network_name``. Можно видеть, что в этом случае контейнеры не видят друг-друга. 
+```
+$ sudo ip link set docker0 down
+``
 
-На самом деле, есть другие варианты настройки сети в контейнерах. Неплохой гайд с картинками: https://k21academy.com/docker-kubernetes/docker-networking-different-types-of-networking-overview-for-beginners/
+Можно создавать отдельные свитчи для групп контейнеров: ``docker network create network_name`` (чтобы сеть появилась в контейнере, нужно ее передать через флаг ``--network network_name``). Контейнеры из разных сетей не видят друг друга. 
+
+Еще один способ выключить сеть в контейнере это удалить маршрут со стороны хоста. 
+
+```
+$ sudo ip route del 172.19.0.0/16 dev br-68bd2dd5acc8
+```
+
+И, наконец, можно дропать все пакеты исходящие от контейнера с помощью ``iptables``.
+
+```
+$ sudo iptables -I FORWARD -s 172.19.0.2 -j DROP 
+```
+
+Неплохой гайд по разным вариантам настройки сети в контейнерах: https://k21academy.com/docker-kubernetes/docker-networking-different-types-of-networking-overview-for-beginners/
 
 
 ## cgroups
